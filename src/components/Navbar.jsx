@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../assets/logo/Logo.webp";
 import { ChevronDown, User, ShoppingCart } from "lucide-react";
 import INR from "../assets/flag/inr.svg";
@@ -68,24 +69,31 @@ const Collection = [
 const Pages = [
   {
     name: "About Us",
+    link : "about"
   },
   {
     name: "Contact with Us",
+    link: "contact",
   },
   {
     name: "Faq",
+    link: "faq"
   },
   {
     name: "Privacy Policy",
+    link: "privacy"
   },
   {
     name: "Shipping & Delivery",
+    link: "shipping"
   },
   {
     name: "Terms & Conditions",
+    link: "terms"
   },
   {
     name: "Wishlist",
+    link: "wishlist"
   },
 ];
 
@@ -381,11 +389,11 @@ const Navbar = () => {
         >
           <div className="flex flex-col gap-1 p-2 cursor-pointer ">
             {Pages.map((item) => (
-              <div key={item}>
+              <Link to={`/pages/${item.link}`} key={item}>
                 <h1 className="text-md mt-1 hover:bg-zinc-200 hover:rounded-md hover:p-1">
                   {item.name}
                 </h1>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
