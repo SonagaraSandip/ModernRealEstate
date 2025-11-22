@@ -51,25 +51,29 @@ const Collection = [
   {
     image: BestSeller,
     name: "Best Sellers",
+    link: "bestseller",
   },
   {
     image: FarmVilla,
     name: "Farm Villa",
+    link: "farm-villa",
   },
   {
     image: Property,
     name: "Properties",
+    link: "properties",
   },
   {
     image: RoyalHouse,
     name: "Royal House",
+    link: "royal-house",
   },
 ];
 
 const Pages = [
   {
     name: "About Us",
-    link : "about"
+    link: "about",
   },
   {
     name: "Contact with Us",
@@ -77,23 +81,23 @@ const Pages = [
   },
   {
     name: "Faq",
-    link: "faq"
+    link: "faq",
   },
   {
     name: "Privacy Policy",
-    link: "privacy"
+    link: "privacy",
   },
   {
     name: "Shipping & Delivery",
-    link: "shipping"
+    link: "shipping-delivery",
   },
   {
     name: "Terms & Conditions",
-    link: "terms"
+    link: "terms-conditions",
   },
   {
     name: "Wishlist",
-    link: "wishlist"
+    link: "wishlist",
   },
 ];
 
@@ -132,6 +136,11 @@ const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [menuTimer, setMenuTimer] = useState(null);
 
+  // get user info from local storage
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const isLoggedIn = !!localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
   const handleMenuEnter = (menuName) => {
     if (menuTimer) {
       clearTimeout(menuTimer);
@@ -167,7 +176,9 @@ const Navbar = () => {
             onMouseLeave={handleMenuLeave}
             className="flex items-center justify-center gap-1 cursor-pointer  "
           >
-            <h1 className="text-white text-sm">Collection</h1>
+            <Link to={`/collections`} className="text-white text-sm">
+              Collection
+            </Link>
             <span>
               <ChevronDown size={16} />
             </span>
@@ -196,7 +207,9 @@ const Navbar = () => {
           </div>
         </div>
         {/* logo */}
-        <img src={Logo} alt="logo" className="h-10 items-center" />
+        <Link to={`/`}>
+          <img src={Logo} alt="logo" className="h-10 items-center" />
+        </Link>
 
         {/* right side */}
         <div className="flex gap-4">
@@ -248,22 +261,71 @@ const Navbar = () => {
           <div className="relative">
             <button
               onClick={() => setOpenUser(!openUser)}
-              className="border rounded-full p-2"
+              className="border rounded-full p-2 flex items-center gap-2"
             >
-              <User className="" />
+              <User />{" "}
+              {isLoggedIn && (
+                <span className="text-sm font-semibold text-white ">
+                  Hi {storedUser?.name || "User"}
+                </span>
+              )}
             </button>
             {/*  User Dropdown */}
             {openUser && (
-              <div className="absolute top-full right-0 mt-2 font-serif rounded-lg bg-white text-black py-2 px-4 text-sm z-50 w-32">
-                <button className="text-lg hover:text-gray-600 block w-full text-left">
-                  Register
-                </button>
-                <button className="text-lg mt-1 hover:text-gray-600 block w-full text-left">
-                  Login
-                </button>
-                <button className="text-lg mt-1 hover:text-gray-600 block w-full text-left">
-                  Wishlist (0)
-                </button>
+              <div className="absolute top-full right-0 mt-2 font-serif rounded-lg bg-white text-black py-2 px-4 text-sm z-50 w-40">
+                {isLoggedIn ? (
+                  <>
+                    <p className="text-gray-800 mb-2 font-semibold text-base">
+                      {storedUser.name}
+                    </p>
+                    <p className="text-gray-500 text-sm mb-2 truncate">
+                      {storedUser.email}
+                    </p>
+                    <hr className="mb-2" />
+                    {/* Show admin dashboard if admin */}
+                    {role === "admin" && (
+                      <Link
+                        to="/admin/dashboard"
+                        className="block w-full text-left mb-2 text-green-700 hover:text-green-900"
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <Link
+                      to="/account/profile"
+                      className="block w-full text-left mb-2 text-gray-700 hover:text-black"
+                    >
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        localStorage.clear();
+                        window.location.href = "/";
+                      }}
+                      className="block w-full text-left text-gray-700 hover:text-red-600"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to={`/account/register`}
+                      className="text-lg hover:text-gray-600 block w-full text-left"
+                    >
+                      Register
+                    </Link>
+                    <Link
+                      to={`/account/login`}
+                      className="text-lg mt-1 hover:text-gray-600 block w-full text-left"
+                    >
+                      Login
+                    </Link>
+                    <button className="text-lg mt-1 hover:text-gray-600 block w-full text-left">
+                      Wishlist (0)
+                    </button>
+                  </>
+                )}
               </div>
             )}
             {openUser && (
@@ -367,14 +429,18 @@ const Navbar = () => {
           <div className="max-w-7xl mx-auto py-4">
             <div className="flex justify-between gap-8">
               {Collection.map((item) => (
-                <div key={item} className="flex flex-col">
+                <Link
+                  to={`/collections/${item.link}`}
+                  key={item}
+                  className="flex flex-col"
+                >
                   <img
                     src={item.image}
                     alt={item.name}
                     className="rounded-xl"
                   />
                   <h1 className="text-md mt-1 text-center">{item.name}</h1>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

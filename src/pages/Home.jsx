@@ -61,7 +61,7 @@ const catData = [
   },
 ];
 
-const category = ["All", "villa", "Royal house", "bunglows"];
+const category = ["All", "villa", "Royalhouse", "bunglows"];
 
 const Home = () => {
   const [properties, setProperties] = useState([]);

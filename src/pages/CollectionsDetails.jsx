@@ -18,9 +18,9 @@ const CollectionDetails = () => {
 
   // Map collection ID to property type
   const collectionTypeMap = {
-    bestseller: "bestseller",
+    bestseller: "all",
     "farm-villa": "villa",
-    properties: "all",
+    properties: "bunglows",
     "royal-house": "royalhouse",
   };
 
@@ -95,7 +95,7 @@ const CollectionDetails = () => {
     if (filters.availability.length > 0) {
       filtered = filtered.filter((p) => {
         if (filters.availability.includes("in-stock")) return p.in_stock;
-        if (filters.availability.includes("out-of-stock")) return !p.in_stock;
+        if (!filters.availability.includes("in-stock")) return !p.in_stock;
         return true;
       });
     }
@@ -258,23 +258,21 @@ const CollectionDetails = () => {
                         </span>
                       </label>
                     )}
-                    {getAvailableCount("out-of-stock") > 0 && (
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.availability.includes(
-                            "out-of-stock"
-                          )}
-                          onChange={() =>
-                            toggleFilter("availability", "out-of-stock")
-                          }
-                          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="text-gray-700 text-sm">
-                          Out of stock ({getAvailableCount("out-of-stock")})
-                        </span>
-                      </label>
-                    )}
+
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={filters.availability.includes("out-of-stock")}
+                        disabled={getAvailableCount("out-of-stock") === 0}
+                        onChange={() =>
+                          toggleFilter("availability", "out-of-stock")
+                        }
+                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-gray-700 text-sm">
+                        Out of stock ({getAvailableCount("out-of-stock")})
+                      </span>
+                    </label>
                   </div>
                 </div>
 

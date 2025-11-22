@@ -88,9 +88,18 @@ const Privacy = () => {
           <li>Communicate with you.</li>
           <li>Screen our orders for potential risk or fraud.</li>
           <li>When in line with the preferences you have shared with us.</li>
-          <li>provide you with information or advertising relating to our products or services.</li>
+          <li>
+            provide you with information or advertising relating to our products
+            or services.
+          </li>
         </div>
-        <p className="mt-4">We use the Device Information that we collect to help us screen for potential risk and fraud (in particular, your IP address), and more generally to improve and optimize our Site (for example, by generating analytics about how our customers browse and interact with the Site, and to assess the success of our marketing and advertising campaigns).</p>
+        <p className="mt-4">
+          We use the Device Information that we collect to help us screen for
+          potential risk and fraud (in particular, your IP address), and more
+          generally to improve and optimize our Site (for example, by generating
+          analytics about how our customers browse and interact with the Site,
+          and to assess the success of our marketing and advertising campaigns).
+        </p>
       </div>
     </div>
   );
